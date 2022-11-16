@@ -6,9 +6,15 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail, BadHeaderError
 from .forms import MailForm
 from django.conf import settings
-from models import MailingList, Mail, Client
+from models import MailingList, Client, EmailTemplate
+from django.template import Template, Context
 
 
+# def index(request):
+#     for filename in os.listdir(".\\templates\email_templates"):
+#         print(filename)
+#     # mail_templates = [i for i in email_templates]
+#     return render(request, "index.html")
 
 def index(request):
     
@@ -20,29 +26,39 @@ def index(request):
         form = MailForm(request.POST)
         if form.is_valid():
             try:
-                new_mail = Mail(
-                    title = form.cleaned_data["subject"],
-                    content = form.cleaned_data['message']
-                    )
-                new_mail.save()
+                # new_mail = Mail(
+                #     title = form.cleaned_data["subject"],
+                #     content = form.cleaned_data['message']
+                #     )
+                # new_mail.save()
 
                 new_mailing_list = MailingList(
+                    subject = form.cleaned_data["subject"],
                     mailing_time = form.cleaned_data['send_time']
                 )
 
-                new_mailing_list.mail = new_mail
+                new_mailing_list.template = form.cleaned_data["template"]
                 new_mailing_list.save()
                 for recipient in form.cleaned_data["recipient"]:
                     new_mailing_list.client.add(Client.objects.filter(email=recipient).first())
                 new_mailing_list.save()
                 
                 if 'send_email' in request.POST:
-                    print "asasasasas"
+                    print('send_email', form.cleaned_data["template"].content)
+                    
                     # send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, form.cleaned_data["recipient"] , fail_silently=False)
             except BadHeaderError:
                 return HttpResponse("Invalid header found.")
             mail_sent = True
     return render(request, "email.html", {"form": form, 'mail_sent': mail_sent})
 
-def successView(request):
-    return HttpResponse("Success! Thank you for your message.")
+
+
+
+def template_test(request):
+    client = Client.objects.first()
+    template_str = EmailTemplate.objects.first().content
+    t = Template(template_str)
+    c = Context({"client": client})
+
+    return HttpResponse(t.render(c))

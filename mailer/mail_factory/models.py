@@ -19,31 +19,32 @@ class Client(models.Model):
         verbose_name_plural = 'клиенты'
 
 
-class Mail(models.Model):
+class EmailTemplate(models.Model):
     title = models.CharField(max_length=500)
     content = models.TextField()
 
     class Meta:
-        verbose_name = 'письмо'
-        verbose_name_plural = 'письма'
+        verbose_name = 'шаблон'
+        verbose_name_plural = 'шаблоны'
     
     def __unicode__(self):
         return self.title
 
 
 class MailingList(models.Model):
+    subject = models.CharField(max_length=500)
     mailing_time = models.DateTimeField('дата и время отправки')
     client = models.ManyToManyField(
         Client,
         verbose_name="Клиент"
     )
-    mail = models.OneToOneField(
-        Mail,
-        on_delete=models.CASCADE,
+    template = models.ForeignKey(
+        EmailTemplate,
+        default=''
     )
 
     def __unicode__(self):
-        return "{0} {1}".format(self.mail.title, self.mailing_time)
+        return "{0} - {1}".format(self.subject, self.mailing_time)
 
     class Meta:
         verbose_name = 'рассылка'
