@@ -5,13 +5,13 @@ from django.db import models
 
 
 class Client(models.Model):
-    email = models.EmailField(max_length=254, db_index=True)
+    email = models.EmailField(max_length=254, db_index=True, null=False)
     name = models.CharField(max_length=250)
     surname = models.CharField(max_length=250)
     patronymic = models.CharField(max_length=250)
     date_of_birth = models.DateField()
 
-    def __str__(self):
+    def __unicode__(self):
         return "{0} {1} {2}, {3}".format(self.surname, self.name, self.patronymic, self.email)
 
     class Meta:
@@ -26,12 +26,13 @@ class Mail(models.Model):
     class Meta:
         verbose_name = 'письмо'
         verbose_name_plural = 'письма'
+    
+    def __unicode__(self):
+        return self.title
 
 
 class MailingList(models.Model):
-    name = models.CharField(max_length=250)
-    slug = models.SlugField()
-    mailing_time = models.DateTimeField('дата и время отправки', auto_now_add=True)
+    mailing_time = models.DateTimeField('дата и время отправки')
     client = models.ManyToManyField(
         Client,
         verbose_name="Клиент"
@@ -40,6 +41,9 @@ class MailingList(models.Model):
         Mail,
         on_delete=models.CASCADE,
     )
+
+    def __unicode__(self):
+        return "{0} {1}".format(self.mail.title, self.mailing_time)
 
     class Meta:
         verbose_name = 'рассылка'
