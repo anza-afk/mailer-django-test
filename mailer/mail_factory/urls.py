@@ -19,6 +19,6 @@ from django.conf.urls import url
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url('b', views.template_test, name='template_test'),
+    url(r'^image_load/$', views.image_load, name='image_load'),
 ]
 
