@@ -34,6 +34,7 @@ def index(request):
 
                 new_mailing_list = MailingList(
                     subject = form.cleaned_data["subject"],
+                    message =  form.cleaned_data["message"],
                     mailing_time = form.cleaned_data['send_time']
                 )
 
@@ -45,7 +46,7 @@ def index(request):
                 
                 if 'send_email' in request.POST:
                     print('send_email', form.cleaned_data["template"].content)
-                    
+                    new_mailing_list.send()
                     # send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, form.cleaned_data["recipient"] , fail_silently=False)
             except BadHeaderError:
                 return HttpResponse("Invalid header found.")
