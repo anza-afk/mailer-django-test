@@ -1,0 +1,5 @@
+EMAIL_HOST_USER='login@domain.com'
+EMAIL_HOST_PASSWORD='yourpass'
+EMAIL_HOST = 'smtp.domain.com'
+
+SECRET_KEY = 'secretkey'
