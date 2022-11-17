@@ -6,7 +6,8 @@ from django.db import models
 from django.conf import settings
 from django.template.loader import render_to_string
 from jsonfield import JSONField
-# from django.utils.translation import activate 
+from django.urls import reverse
+
 class Client(models.Model):
     email = models.EmailField(max_length=254, db_index=True, null=False)
     name = models.CharField(max_length=250)
@@ -53,11 +54,15 @@ class MailingList(models.Model):
         return "{0} - {1}".format(self.subject, self.mailing_time)
 
 
-    def send(self):
+    def send(self, request):
         client_query = self.client.all()
        
         for client in client_query:
-            html_message = render_to_string(self.template.content, {'client': client})
+            html_message = render_to_string(self.template.content, {
+                'client': client,
+                'image_url': request.build_absolute_uri(("image_load")),
+                'mailing': self.id
+                })
             message = EmailMultiAlternatives(
                 subject=self.subject,
                 body=self.message,

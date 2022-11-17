@@ -13,6 +13,13 @@ cd mailer
 Создание суперпользователя:
 python manage.py createsuperuser
 
+Для добавления шаблонов писем их необходимо класть в mail_factory/templates/email_templates
+и регистрировать в базе данных - в поле title - название, которе будет отображаться при выборе шаблона
+в поле content - путь до шаблона вида "email_templates/название_файла.html"
+
+Для отслеивания открытия письма в шаблон нужно добавить строку:
+<img src="{{ image_url }}?client={{ client.id }}&mailing={{mailing}}" height="0px" width="0px"/>
+(однако, для работоспособности этого подхода проект необходимо деплоить.)
 
 Запуск Celery для пересылок отложенных писем:
 celery -A mailer worker -l info -B
