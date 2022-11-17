@@ -38,6 +38,7 @@ class MailingList(models.Model):
     subject = models.CharField(max_length=500, null=True)
     mailing_time = models.DateTimeField('дата и время отправки')
     message = models.TextField(null=True)
+    sent = models.BooleanField(default=False)
     opened = JSONField(null=True)
     client = models.ManyToManyField(
         Client,
@@ -65,7 +66,9 @@ class MailingList(models.Model):
                 )
             message.attach_alternative(html_message, "text/html")
             message.send(fail_silently=False)
-
+        self.sent = True
+        self.save()
+    
     class Meta:
         verbose_name = 'рассылка'
         verbose_name_plural = 'рассылки'
