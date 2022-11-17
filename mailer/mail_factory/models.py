@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.core.mail import send_mail, BadHeaderError
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.db import models
 from django.conf import settings
 from django.template.loader import render_to_string
-
-
+from jsonfield import JSONField
+# from django.utils.translation import activate 
 class Client(models.Model):
     email = models.EmailField(max_length=254, db_index=True, null=False)
     name = models.CharField(max_length=250)
@@ -33,13 +34,11 @@ class EmailTemplate(models.Model):
         return self.title
     
 
-
-
-
 class MailingList(models.Model):
     subject = models.CharField(max_length=500, null=True)
     mailing_time = models.DateTimeField('дата и время отправки')
-    message = models.TextField()
+    message = models.TextField(null=True)
+    opened = JSONField(null=True)
     client = models.ManyToManyField(
         Client,
         verbose_name="Клиент"
@@ -52,18 +51,20 @@ class MailingList(models.Model):
     def __unicode__(self):
         return "{0} - {1}".format(self.subject, self.mailing_time)
 
+
     def send(self):
-        client_list = [x.email for x in self.client]
-        for client in client_list:
-            html_message = render_to_string(self.template, {'client': client})
-            send_mail(
+        client_query = self.client.all()
+       
+        for client in client_query:
+            html_message = render_to_string(self.template.content, {'client': client})
+            message = EmailMultiAlternatives(
                 subject=self.subject,
-                message=self.message,
+                body=self.message,
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=client_list,
-                fail_silently=False,
-                html_message=self.html_message
+                to=(client.email,),
                 )
+            message.attach_alternative(html_message, "text/html")
+            message.send(fail_silently=False)
 
     class Meta:
         verbose_name = 'рассылка'
