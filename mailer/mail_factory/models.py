@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+from django.core.mail import send_mail, BadHeaderError
 from django.db import models
+from django.conf import settings
+from django.template.loader import render_to_string
 
 
 class Client(models.Model):
@@ -22,18 +24,22 @@ class Client(models.Model):
 class EmailTemplate(models.Model):
     title = models.CharField(max_length=500)
     content = models.TextField()
-
     class Meta:
         verbose_name = 'шаблон'
         verbose_name_plural = 'шаблоны'
     
+
     def __unicode__(self):
         return self.title
+    
+
+
 
 
 class MailingList(models.Model):
-    subject = models.CharField(max_length=500)
+    subject = models.CharField(max_length=500, null=True)
     mailing_time = models.DateTimeField('дата и время отправки')
+    message = models.TextField()
     client = models.ManyToManyField(
         Client,
         verbose_name="Клиент"
@@ -45,6 +51,19 @@ class MailingList(models.Model):
 
     def __unicode__(self):
         return "{0} - {1}".format(self.subject, self.mailing_time)
+
+    def send(self):
+        client_list = [x.email for x in self.client]
+        for client in client_list:
+            html_message = render_to_string(self.template, {'client': client})
+            send_mail(
+                subject=self.subject,
+                message=self.message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=client_list,
+                fail_silently=False,
+                html_message=self.html_message
+                )
 
     class Meta:
         verbose_name = 'рассылка'

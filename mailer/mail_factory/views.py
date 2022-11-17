@@ -7,7 +7,7 @@ from django.core.mail import send_mail, BadHeaderError
 from .forms import MailForm
 from django.conf import settings
 from models import MailingList, Client, EmailTemplate
-from django.template import Template, Context
+
 
 
 # def index(request):
@@ -54,11 +54,9 @@ def index(request):
 
 
 
-
 def template_test(request):
-    client = Client.objects.first()
-    template_str = EmailTemplate.objects.first().content
-    t = Template(template_str)
-    c = Context({"client": client})
-
-    return HttpResponse(t.render(c))
+    client = Client.objects.all().first()
+    return render(
+        request,
+        EmailTemplate.objects.filter(title='news').first().content,
+        {"client": client})

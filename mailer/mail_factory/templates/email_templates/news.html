@@ -88,7 +88,7 @@
             
              <img alt="Flower" src="https://hs-8886753.f.hubspotemail.net/hs/hsstatic/TemplateAssets/static-1.60/img/hs_default_template_images/email_dnd_template_images/ThankYou-Flower.png" width="400px" align="middle">
                 
-                <h1> Welcome! </h1>
+              <h1> Добрый день, {{ client.name }} {{ client.patronymic }}! </h1>
                 
               </td>
         </table>
@@ -101,12 +101,11 @@
   <table role="presentation" border="0" cellpadding="0" cellspacing="10px" style="padding: 30px 30px 30px 60px;">
      <tr>
        <td>
-        <h2> Lorem ipsum dolor sit amet</h2>
+        <h2> Нашли ваших однофамильцев: </h2>
             <p>
-              Ut eget semper libero. Vestibulum non maximus nisl, ut iaculis ante. Nunc arcu elit, cursus eget urna et, tempus aliquam eros. Ut eget semper libero. Vestibulum non maximus nisl, ut iaculis ante. Nunc arcu elit, cursus eget urna et, tempus aliquam eros.  
             </p>
                 <button> 
-                  Button 1
+                  Подробнее
                 </button>
           </td> 
           </tr>
@@ -119,7 +118,7 @@
           <td> 
            <img alt="Blog" src="https://www.hubspot.com/hubfs/assets/hubspot.com/style-guide/brand-guidelines/guidelines_sample-illustration-3.svg" width="200px" align="middle">
             
-         <h2> Vivamus ac elit eget </h2>
+         <h2> {{ client.surname }} Валерий Викторович</h2>
             <p>
               Vivamus ac elit eget dolor placerat tristique et vulputate nibh. Sed in elementum nisl, quis mollis enim. Etiam gravida dui vel est euismod, at aliquam ipsum euismod. 
       
@@ -130,7 +129,7 @@
           <td>
             
             <img alt="Shopping" src="https://www.hubspot.com/hubfs/assets/hubspot.com/style-guide/brand-guidelines/guidelines_sample-illustration-5.svg" width="200px" align="middle">
-         <h2> Suspendisse tincidunt iaculis </h2>
+         <h2> {{ client.surname }} Шопен Гауер </h2>
             <p>
               Suspendisse tincidunt iaculis fringilla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras laoreet elit purus, quis pulvinar ipsum pulvinar et. 
       
@@ -143,29 +142,10 @@
               <td> <button> Button 3 </button> </td> 
               
   </table>
-     
-        <! Banner Row --> 
-  <table role="presentation" bgcolor="#EAF0F6" width="100%" style="margin-top: 50px;" >
-      <tr>
-          <td align="center" style="padding: 30px 30px;">
-            
-         <h2> Nullam porta arcu </h2>
-            <p>
-              Nam vel lobortis lorem. Nunc facilisis mauris at elit pulvinar, malesuada condimentum erat vestibulum. Pellentesque eros tellus, finibus eget erat at, tempus rutrum justo. 
-      
-              </p>
-              <a href="#"> Ask us a question</a>      
-          </td>
-          </tr>
-      </table>
-  
-        <! Unsubscribe Footer --> 
-      
   <table role="presentation" bgcolor="#F5F8FA" width="100%" >
       <tr>
           <td align="left" style="padding: 30px 30px;">
-            <p style="color:#99ACC2"> Made with &hearts; at HubSpot HQ </p>
-              <a class="subtle-link" href="#"> Unsubscribe </a>      
+            <a class="subtle-link" href="#"> Unsubscribe </a>      
           </td>
           </tr>
       </table> 
