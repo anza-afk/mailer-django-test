@@ -12,23 +12,24 @@ ssh:
 
 ### В случае запуска в контейнере с Python версии 2.7.18:
 
-    cd mailer-django-test/mailer
-    
+    cd mailer-django-test/
+
+В файле .env по образцу .env example заполняются переменные:
+почта, хост, пароль и django secret key
+
 *(Если используется утилита для работы с несколькими версиями интерпретатора (например Pyenv), 
 в директории mailer-django-test используется интерпретатор python 2.7.18 и создаётся виртуальное окружение для него)* 
 
 ### Создание виртуального окружения при помощи pyenv:
 
-    cd mailer-django-test/
-    pyenv install 2.7.18 & pyenv local 2.7.18
-    pyenv virtualenv venv & pyenv local venv
+    pyenv install 2.7.18
+    pyenv local 2.7.18
+    pyenv virtualenv venv
+    pyenv local venv
+    
     cd mailer
 
     pip install -r requirements.txt
-
-В файле .env по образцу .env example заполняются переменные:
-почта, хост, пароль и django secret key
-
 
 
 ### Создание суперпользователя:
