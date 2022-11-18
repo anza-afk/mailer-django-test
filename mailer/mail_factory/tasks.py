@@ -17,4 +17,4 @@ def send_db_emails():
     mailing_list = MailingList.objects.filter(sent=False).filter(mailing_time__lte=datetime.now())
     for mail in mailing_list:
         mail.send(url)
-        logger.info('all mail for {} sent!'.format(mail.id))
+        logger.info('all mail for mailing with id:{} sent!'.format(mail.id))
