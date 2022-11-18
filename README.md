@@ -1,9 +1,14 @@
-## Установка:
-
 Для работы требуется Python версии 2.7.18
 
-    http: git clone https://github.com/anza-afk/mailer-django-test.git
-    ssh: git clone git@github.com:anza-afk/mailer-django-test.git
+## Установка:
+
+
+http: 
+
+    git clone https://github.com/anza-afk/mailer-django-test.git
+ssh: 
+
+    git clone git@github.com:anza-afk/mailer-django-test.git
 
 *(Если используется утилита для работы с несколькими версиями интерпретатора (например Pyenv), 
 в директории mailer-django-test используется интерпретатор python 2.7.18 и создаётся виртуальное окружение для него)* 
