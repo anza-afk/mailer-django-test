@@ -42,12 +42,13 @@ class MailingList(models.Model):
     opened = JSONField(null=True)
     client = models.ManyToManyField(
         Client,
-        verbose_name="Клиент"
+        verbose_name='Клиент'
     )
     template = models.ForeignKey(
         EmailTemplate,
         default=''
     )
+
 
     def __unicode__(self):
         return "{0} - {1}".format(self.subject, self.mailing_time)
@@ -68,11 +69,12 @@ class MailingList(models.Model):
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 to=(client.email,),
                 )
-            message.attach_alternative(html_message, "text/html")
+            message.attach_alternative(html_message, 'text/html')
             message.send(fail_silently=False)
         self.sent = True
         self.save()
     
+
     class Meta:
         verbose_name = 'рассылка'
         verbose_name_plural = 'рассылки'
