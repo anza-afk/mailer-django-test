@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.mail import BadHeaderError
@@ -8,7 +8,6 @@ from .forms import MailForm
 from django.conf import settings
 from models import MailingList, Client
 from django.core.exceptions import ObjectDoesNotExist
-
 
 
 def image_load(request):
@@ -27,7 +26,7 @@ def image_load(request):
 
 
 def index(request):
-    mail_sent = False
+    mail_sent = 'No'
 
     if request.method == "GET":
         form = MailForm()
@@ -48,8 +47,14 @@ def index(request):
                 new_mailing_list.save()
                 
                 if 'send_email' in request.POST:
-                    new_mailing_list.send(request)
+                    new_mailing_list.mailing_time = datetime.now()
+                    new_mailing_list.save()
+                    url = request.build_absolute_uri(("image_load")),
+                    new_mailing_list.send(url)
+                    mail_sent = 'Yes'
+                elif 'plan_email' in request.POST:
+                    mail_sent = 'Planned'
             except BadHeaderError:
                 return HttpResponse("Invalid header found.")
-            mail_sent = True
+
     return render(request, "email.html", {"form": form, 'mail_sent': mail_sent})
