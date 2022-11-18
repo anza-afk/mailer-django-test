@@ -5,13 +5,14 @@
     http: git clone https://github.com/anza-afk/mailer-django-test.git
     ssh: git clone git@github.com:anza-afk/mailer-django-test.git
 
+    cd mailer-django-test/mailer
+
     pip install -r requirements.txt
-    pip install redis-server
 
 В файле .env по образцу .env example заполняются переменные:
 почта, хост, пароль и django secret key
 
-    cd mailer
+
 
 ### Создание суперпользователя:
   
