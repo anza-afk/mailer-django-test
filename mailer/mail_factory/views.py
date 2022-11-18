@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 def image_load(request):
+    """Эндпоинт, запрашиваемй при поткрытии объекса image в письме"""
     if request.GET.get('mailing'):
         mailing_list = MailingList.objects.get(id=request.GET.get('mailing'))
     if request.GET.get('client'):
@@ -26,6 +27,7 @@ def image_load(request):
 
 
 def index(request):
+    """Главная страница"""
     mail_sent = 'No'
 
     if request.method == "GET":

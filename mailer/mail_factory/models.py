@@ -8,6 +8,7 @@ from jsonfield import JSONField
 
 
 class Client(models.Model):
+    """Модель клиента."""
     email = models.EmailField(max_length=254, db_index=True, null=False)
     name = models.CharField(max_length=250)
     surname = models.CharField(max_length=250)
@@ -23,6 +24,7 @@ class Client(models.Model):
 
 
 class EmailTemplate(models.Model):
+    """Модель шаблона письма."""
     title = models.CharField(max_length=500)
     content = models.TextField()
     class Meta:
@@ -35,6 +37,7 @@ class EmailTemplate(models.Model):
     
 
 class MailingList(models.Model):
+    """Модель рассылки."""
     subject = models.CharField(max_length=500, null=True)
     mailing_time = models.DateTimeField('дата и время отправки')
     message = models.TextField(null=True)
@@ -55,6 +58,7 @@ class MailingList(models.Model):
 
 
     def send(self, url):
+        """Отправляет письмо."""
         client_query = self.client.all()
         
         for client in client_query:
